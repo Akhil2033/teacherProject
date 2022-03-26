@@ -12,5 +12,6 @@ namespace teacherProject.Models
         public string TeacherFname;
         public string TeacherLname;
         public DateTime HireDate;
+        public float Salary;
     }
 }

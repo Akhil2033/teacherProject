@@ -12,14 +12,15 @@ namespace teacherProject.Controllers
     public class TeacherDataController : ApiController
     {
         // accessing our sql database
-        private SchoolDbContext School = new SchoolDbContext();
+        private readonly SchoolDbContext School = new SchoolDbContext();
 
-        [HttpGet]
+        [HttpGet] 
         public IEnumerable<Teacher> ListTeachers()
         {
 
             // creating an instance of a connection
-            MySqlConnection Conn = School.AccessDatabase();
+            MySqlConnection mySqlConnection = School.AccessDatabase();
+            MySqlConnection Conn = mySqlConnection;
            
             Conn.Open();
 
@@ -39,29 +40,74 @@ namespace teacherProject.Controllers
             {
                 //access coloumn information from db column as an index
                 int TeacherId = (int)ResultSet["teacherid"];
-                string TeacherFname = (string)ResultSet["teacherfname"];
-                string TeacherLName = (string)ResultSet["teacherlname"];
+                string TeacherFName = ResultSet["teacherfname"].ToString();
+                string TeacherLName = ResultSet["teacherlname"].ToString();
                 DateTime HireDate = (DateTime)ResultSet["hiredate"];
+                Decimal Salary = (Decimal)ResultSet["salary"];
 
                 Teacher NewTeacher = new Teacher();
                 NewTeacher.TeacherId = TeacherId;
-                NewTeacher.TeacherFname = TeacherFname;
+                NewTeacher.TeacherFname = TeacherFName;
                 NewTeacher.TeacherLname = TeacherLName;
                 NewTeacher.HireDate = HireDate;
+                NewTeacher.Salary = (float)Salary;
+
 
                 //add the teacher Name to the list
-                Teachers.Add(NewTeacher); 
+                Teachers.Add(NewTeacher);
 
-
+            }
                 //close connection between web server and mysql database
                 Conn.Close();
 
                 //Return the final list of teacher names
                 return Teachers;
 
+            
+
+
+
+        }
+        [HttpGet]
+        public Teacher FindTeacher(int id)
+        {
+            Teacher NewTeacher = new Teacher();
+
+            // creating an instance of a connection
+            MySqlConnection mySqlConnection = School.AccessDatabase();
+            MySqlConnection Conn = mySqlConnection;
+
+            Conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            //sql query
+            cmd.CommandText = "SELECT * from teachers where teacherid = " +id;
+
+            //gather result set of query into a variable
+            MySqlDataReader ResultSet = cmd.ExecuteReader();
+
+
+            while (ResultSet.Read())
+            {
+                //access coloumn information from db column as an index
+                int TeacherId = (int)ResultSet["teacherid"];
+                string TeacherFName = ResultSet["teacherfname"].ToString();
+                string TeacherLName = ResultSet["teacherlname"].ToString();
+                DateTime HireDate = (DateTime)ResultSet["hiredate"];
+                Decimal Salary = (Decimal)ResultSet["salary"];
+
+                NewTeacher.TeacherId = TeacherId;
+                NewTeacher.TeacherFname = TeacherFName;
+                NewTeacher.TeacherLname = TeacherLName;
+                NewTeacher.HireDate = HireDate;
+                NewTeacher.Salary = (float)Salary;
             }
 
 
+
+            return NewTeacher;
 
         }
     }
