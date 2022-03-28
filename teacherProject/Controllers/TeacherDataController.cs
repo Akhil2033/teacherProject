@@ -17,7 +17,7 @@ namespace teacherProject.Controllers
         [HttpGet]
         [Route("api/TeacherData/ListTeachers/{SearchKey?}")]
 
-        public IEnumerable<Teacher> ListTeachers()
+        public IEnumerable<Teacher> ListTeachers(string SearchKey=null)
         {
 
             // creating an instance of a connection
@@ -30,7 +30,7 @@ namespace teacherProject.Controllers
             MySqlCommand cmd = Conn.CreateCommand();
 
             //sql query
-            cmd.CommandText = "SELECT * from teachers";
+            cmd.CommandText = "SELECT * from teachers where teacherfname like '%" + SearchKey + "%' or teacherlname like '%" + SearchKey + "%' ";
 
             //gather result set of query into a variable
             MySqlDataReader ResultSet = cmd.ExecuteReader();
@@ -64,10 +64,6 @@ namespace teacherProject.Controllers
 
             //Return the final list of teacher names
             return Teachers;
-
-
-
-
 
         }
 
