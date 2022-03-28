@@ -11,7 +11,7 @@ namespace teacherProject.Controllers
 {
     public class TeacherDataController : ApiController
     {
-        // accessing our sql database
+        // Accessing school sql database
         private readonly SchoolDbContext School = new SchoolDbContext();
 
         [HttpGet]
@@ -31,7 +31,7 @@ namespace teacherProject.Controllers
 
             //sql query
             cmd.CommandText = "SELECT * from teachers where lower(teacherfname) like lower(@key) or lower(teacherlname) like lower(@key)";
-
+            // sanatising search from injection attacks
             cmd.Parameters.AddWithValue("key", "%" + SearchKey + "%");
 
             //gather result set of query into a variable
