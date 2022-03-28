@@ -30,7 +30,7 @@ namespace teacherProject.Controllers
             MySqlCommand cmd = Conn.CreateCommand();
 
             //sql query
-            cmd.CommandText = "SELECT * from teachers where teacherfname like '%" + SearchKey + "%' or teacherlname like '%" + SearchKey + "%' ";
+            cmd.CommandText = "SELECT * from teachers where lower(teacherfname) like lower('%" + SearchKey + "%') or lower(teacherlname) like lower('%" + SearchKey + "%')";
 
             //gather result set of query into a variable
             MySqlDataReader ResultSet = cmd.ExecuteReader();
