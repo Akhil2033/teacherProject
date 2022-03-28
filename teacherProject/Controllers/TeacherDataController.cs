@@ -14,15 +14,17 @@ namespace teacherProject.Controllers
         // accessing our sql database
         private readonly SchoolDbContext School = new SchoolDbContext();
 
-        [HttpGet] 
+        [HttpGet]
+        [Route("api/TeacherData/ListTeachers/{SearchKey?}")]
+
         public IEnumerable<Teacher> ListTeachers()
         {
 
             // creating an instance of a connection
             MySqlConnection mySqlConnection = School.AccessDatabase();
             MySqlConnection Conn = mySqlConnection;
-           
-            Conn.Open();
+
+            NewMethod(Conn, Conn);
 
             //Establish a new command (query) for our database
             MySqlCommand cmd = Conn.CreateCommand();
@@ -57,17 +59,23 @@ namespace teacherProject.Controllers
                 Teachers.Add(NewTeacher);
 
             }
-                //close connection between web server and mysql database
-                Conn.Close();
+            //close connection between web server and mysql database
+            Conn.Close();
 
-                //Return the final list of teacher names
-                return Teachers;
+            //Return the final list of teacher names
+            return Teachers;
 
-            
+
 
 
 
         }
+
+        private static void NewMethod(MySqlConnection Conn, MySqlConnection conn)
+        {
+            conn.Open();
+        }
+
         [HttpGet]
         public Teacher FindTeacher(int id)
         {
@@ -83,7 +91,10 @@ namespace teacherProject.Controllers
             MySqlCommand cmd = Conn.CreateCommand();
 
             //sql query
-            cmd.CommandText = "SELECT * from teachers where teacherid = " +id;
+            cmd.CommandText = "SELECT * from teachers where teacherid = @id";
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+
 
             //gather result set of query into a variable
             MySqlDataReader ResultSet = cmd.ExecuteReader();
@@ -104,8 +115,6 @@ namespace teacherProject.Controllers
                 NewTeacher.HireDate = HireDate;
                 NewTeacher.Salary = (float)Salary;
             }
-
-
 
             return NewTeacher;
 
