@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using teacherProject.Models;
+using System.Diagnostics;
 
 namespace teacherProject.Controllers
 {
@@ -15,10 +16,11 @@ namespace teacherProject.Controllers
             return View();
         }
         //GET : /Teacher/List
-        public ActionResult List()
+        public ActionResult List(string SearchKey)
         {
+            Debug.WriteLine("SearchKey is :  " + SearchKey);
             TeacherDataController controller = new TeacherDataController();
-            IEnumerable<Teacher> Teachers = controller.ListTeachers();
+            IEnumerable<Teacher> Teachers = controller.ListTeachers(SearchKey);
             return View(Teachers);
         }
 
