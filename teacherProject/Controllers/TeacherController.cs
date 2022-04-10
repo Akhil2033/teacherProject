@@ -16,7 +16,7 @@ namespace teacherProject.Controllers
             return View();
         }
         //GET : /Teacher/List
-        public ActionResult List(string SearchKey)
+        public ActionResult List(string SearchKey = null)
         {
             Debug.WriteLine("SearchKey is :  " + SearchKey);
             TeacherDataController controller = new TeacherDataController();
@@ -33,5 +33,50 @@ namespace teacherProject.Controllers
            
             return View(NewTeacher);
         }
+
+        // Get: /Teacher/DeleteConfirm/{id}
+
+        public ActionResult DeleteConfirm(int id)
+        {
+            TeacherDataController controller = new TeacherDataController();
+            Teacher NewTeacher = controller.FindTeacher(id);
+            //displays info to /view/Teacher/show.cshtml
+            return View(NewTeacher);
+        }
+
+        // Post: /Teacher/Delete/{id}
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            TeacherDataController controller = new TeacherDataController();
+            controller.DeleteTeacher(id);
+            return RedirectToAction("List");
+        }
+
+        //GET: /Teacher/New
+        public ActionResult New()
+        {
+            return View();
+        }
+
+        //POST: /Teacher/Create
+        [HttpPost]
+        public ActionResult Create(string TeacherFname, string TeacherLname, string EmployeeNumber, DateTime HireDate, int Salary)
+        {
+            Teacher NewTeacher = new Teacher();
+            NewTeacher.TeacherFname = TeacherFname;
+            NewTeacher.TeacherLname = TeacherLname;
+            NewTeacher.EmployeeNumber = EmployeeNumber;
+            NewTeacher.HireDate = HireDate;
+            NewTeacher.Salary = Salary;
+
+            TeacherDataController controller = new TeacherDataController();
+            controller.AddTeacher(NewTeacher);
+
+            return RedirectToAction("List");
+        }
+
+
     }
+
 }

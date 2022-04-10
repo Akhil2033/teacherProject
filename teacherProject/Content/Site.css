@@ -15,3 +15,38 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+nav {
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.navlink {
+    float: left;
+    margin-right: 15px;
+}
+
+.dellink {
+    color: #dd1111;
+    float: right;
+}
+
+.delbutton {
+    display: block;
+    margin: 0 auto;
+    background: #dd1111;
+    color: #fff;
+    border: 2px solid #000;
+    border-radius: 3px;
+}
+
+#list-container, #show-container {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 80px;
+}
+
+.listitem {
+    margin: 10px 0;
+}
