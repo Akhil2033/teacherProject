@@ -7,6 +7,7 @@ using System.Web.Http;
 using teacherProject.Models;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
+//using System.Web.Http.Cors;
 
 namespace teacherProject.Controllers
 {
@@ -187,5 +188,48 @@ namespace teacherProject.Controllers
             Conn.Close();
 
         }
+
+        /// <summary>
+        /// Updates an Author on the MySQL Database. Non-Deterministic.
+        /// </summary>
+        /// <param name="TeacherInfo">An object with fields that map to the columns of the author's table.</param>
+        /// <example>
+        /// POST api/TeacherData/UpdateTeacher/8 
+        /// FORM DATA / POST DATA / REQUEST BODY 
+        /// {
+        ///     "TeacherFname":"Neo",
+        ///     "TeacherLName":"Anderson",
+        ///     "EmployeeNumber":"T001",
+        ///     "HireDate":"2021-03-17",
+        ///     "salary":"66.66"
+        /// }
+        /// </example>
+        
+        [HttpPost]
+        //[EnableCors(origins: "*", methods: "*", headers: "*")]
+        public void UpdateTeacher(int id, [FromBody]Teacher TeacherInfo)
+        {
+            MySqlConnection Conn = School.AccessDatabase();
+
+            Debug.WriteLine(TeacherInfo.TeacherFname);
+
+            Conn.Open();
+
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            cmd.CommandText = "update teachers set teacherfname =@TeacherFname, teacherlname=@TeacherLname, employeenumber=@EmployeeNumber, hiredate=CURRENT_DATE(), salary=@salary where teacherid=@TeacherId";
+            cmd.Parameters.AddWithValue("@TeacherFname", TeacherInfo.TeacherFname);
+            cmd.Parameters.AddWithValue("@TeacherLName", TeacherInfo.TeacherLname);
+            cmd.Parameters.AddWithValue("@EmployeeNumber", TeacherInfo.EmployeeNumber);
+            cmd.Parameters.AddWithValue("@Salary", TeacherInfo.Salary);
+            cmd.Parameters.AddWithValue("@TeacherId", id);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+        }
+
+
     }
 }
