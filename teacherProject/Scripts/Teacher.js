@@ -49,7 +49,7 @@ function UpdateTeacher(TeacherId) {
 	//POST : http://localhost:51919/api/TeacherData/UpdateTeacher/{id}
 	//with POST data of authorname, bio, email, etc.
 
-	var URL = "http://localhost:51919/api/TeacherData/UpdateTeacher/" + TeacherId;
+	var URL = "http://localhost:51919/api/TeacherData/UpdateTeacher/"+TeacherId;
 
 	var rq = new XMLHttpRequest();
 	// where is this request sent to?

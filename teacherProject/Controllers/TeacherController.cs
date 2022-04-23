@@ -100,18 +100,18 @@ namespace teacherProject.Controllers
         public ActionResult Ajax_Update(int id)
         {
             TeacherDataController controller = new TeacherDataController();
-            Teacher SelectedAuthor = controller.FindTeacher(id);
+            Teacher SelectedTeacher = controller.FindTeacher(id);
 
-            return View(SelectedAuthor);
+            return View(SelectedTeacher);
         }
     }
 
     /// <summary>
-    /// Receives a POST request containing information about an existing author in the system, with new values. Conveys this information to the API, and redirects to the "Teacher Show" page of our updated teacher.
+    /// Receives a POST request containing information about an existing teacher in the system, with new values. Conveys this information to the API, and redirects to the "Teacher Show" page of our updated teacher.
     /// </summary>
     /// <param name="id">Id of the Teacher to update</param>
-    /// <param name="TeacherFname">The updated first name of the author</param>
-    /// <param name="TeacherLname">The updated last name of the author</param>
+    /// <param name="TeacherFname">The updated first name of the teacher</param>
+    /// <param name="TeacherLname">The updated last name of the teacher</param>
     /// <param name="EmployeeNumber"> The updated employee number</param>
     /// <param name="Hiredate">The updated hiredate of the teacher.</param>
     /// <param name="salary">The updated salary of the teacher.</param>
@@ -127,6 +127,7 @@ namespace teacherProject.Controllers
     ///     "salary":"66.66"
     /// }
     /// </example>
+    
     [HttpPost]
     public ActionResult Update(int id, string TeacherFname, string TeacherLname, string EmployeeNumber, DateTime HireDate, int Salary)
     {

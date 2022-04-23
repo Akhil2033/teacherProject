@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Web.Http;
 using teacherProject.Models;
 using MySql.Data.MySqlClient;
-using System.Diagnostics;
 //using System.Web.Http.Cors;
 
 namespace teacherProject.Controllers
@@ -170,7 +169,7 @@ namespace teacherProject.Controllers
         {
             MySqlConnection Conn = School.AccessDatabase();
 
-            Debug.WriteLine(NewTeacher.TeacherFname);
+            //Debug.WriteLine(NewTeacher.TeacherFname);
 
             Conn.Open();
 
@@ -206,18 +205,18 @@ namespace teacherProject.Controllers
         /// </example>
         
         [HttpPost]
-        //[EnableCors(origins: "*", methods: "*", headers: "*")]
-        public void UpdateTeacher(int id, [FromBody] Teacher TeacherInfo)
+       // [EnableCors(origins: "*", methods: "*", headers: "*")]
+        public void UpdateTeacher(int id, [FromBody]Teacher TeacherInfo)
         {
             MySqlConnection Conn = School.AccessDatabase();
 
-            Debug.WriteLine(TeacherInfo.TeacherFname);
+           // Debug.WriteLine(TeacherInfo.TeacherFname);
 
             Conn.Open();
 
             MySqlCommand cmd = Conn.CreateCommand();
 
-            cmd.CommandText = "update teachers set teacherfname =@TeacherFname, teacherlname=@TeacherLname, employeenumber=@EmployeeNumber, hiredate=CURRENT_DATE(), salary=@salary where teacherid=@TeacherId";
+            cmd.CommandText = "update teachers set teacherfname=@TeacherFname, teacherlname=@TeacherLname, employeenumber=@EmployeeNumber, hiredate=CURRENT_DATE(), salary=@salary where teacherid=@TeacherId";
             cmd.Parameters.AddWithValue("@TeacherFname", TeacherInfo.TeacherFname);
             cmd.Parameters.AddWithValue("@TeacherLName", TeacherInfo.TeacherLname);
             cmd.Parameters.AddWithValue("@EmployeeNumber", TeacherInfo.EmployeeNumber);
