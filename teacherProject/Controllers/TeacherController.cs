@@ -59,6 +59,12 @@ namespace teacherProject.Controllers
             return View();
         }
 
+        //GET: /Teacher/Ajax_New
+        public ActionResult Ajax_new()
+        {
+            return View();
+        }
+
         //POST: /Teacher/Create
         [HttpPost]
         public ActionResult Create(string TeacherFname, string TeacherLname, string EmployeeNumber, DateTime HireDate, int Salary)

@@ -207,7 +207,7 @@ namespace teacherProject.Controllers
         
         [HttpPost]
         //[EnableCors(origins: "*", methods: "*", headers: "*")]
-        public void UpdateTeacher(int id, [FromBody]Teacher TeacherInfo)
+        public void UpdateTeacher(int id, [FromBody] Teacher TeacherInfo)
         {
             MySqlConnection Conn = School.AccessDatabase();
 
